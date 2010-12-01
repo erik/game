@@ -1,10 +1,8 @@
-#Fixme: write
-
-CC=clang
-CFLAGS=  -Wall -Wextra -std=c99 -Wno-unused-parameter -g
+CC=g++
+CFLAGS=  -Wall -Wextra -Wno-unused-parameter -g
 LNFLAGS= -lSDL -lSDL_image
-SRC=$(wildcard src/*.c)
-HEAD=$(wildcard src/*.h)
+SRC=$(wildcard src/*.cpp)
+HEAD=$(wildcard src/*.hpp)
 OBJ=$(SRC:.c=.o)
 EXE=game
 

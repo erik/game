@@ -6,6 +6,10 @@
 #define DEPTH 32
 #define WINDOW_TITLE "A Game"
 
+#define REST_INDEX 0
+#define WALK_INDEX 1
+#define JUMP_INDEX 2
+
 #define CHARACTER_WIDTH 64
 #define CHARACTER_HEIGHT 64
 
