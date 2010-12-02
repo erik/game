@@ -1,14 +1,21 @@
 #include "game.h"
 #include "character.h"
+#include "music.h"
 
 int main(int argc, char** argv) {
   SDL_Surface *screen = InitSDL();
   SDL_Surface *background = LoadImage("data/back.png", true);
   SDL_Surface *fog = LoadImage("data/fog.png", true);
+
+  Music::init();
+  Music music("data/music.ogg");
+  music.loop();
+
   SDL_Event event;
   bool quit = false;
   Character player("xeon", 0, HEIGHT - CHARACTER_HEIGHT);
   Timer fps;
+
   bool keys[256];
   for(int i = 0; i < 256; ++i) {
     keys[i] = false;
@@ -17,8 +24,6 @@ int main(int argc, char** argv) {
   ApplySurface(0, 0, background, screen);
   ApplySurface(0, 100, fog, screen);
   player.draw(screen);
-
-  SDL_Flip(screen);
 
   SDL_Flip(screen);
 

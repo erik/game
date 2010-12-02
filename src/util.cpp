@@ -1,8 +1,9 @@
 #include "game.h"
 #include "config.h"
 
-#include "SDL/SDL_image.h"
 #include "SDL/SDL.h"
+#include "SDL/SDL_image.h"
+#include "SDL/SDL_mixer.h"
 
 #include <string>
 #include <iostream>
@@ -30,7 +31,7 @@ SDL_Surface *LoadImage(std::string filename, bool transparent) {
 }
 
 SDL_Surface *InitSDL() {
-  if(SDL_Init(SDL_INIT_EVERYTHING) == -1) {
+  if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == -1) {
     FATAL("SDL init failed");
   }
   SDL_Surface* screen = SDL_SetVideoMode(WIDTH, HEIGHT, DEPTH, SDL_SWSURFACE);
