@@ -1,11 +1,13 @@
 #include "game.h"
 #include "character.h"
 #include "music.h"
+#include "fog.h"
 
 int main(int argc, char** argv) {
   SDL_Surface *screen = InitSDL();
   SDL_Surface *background = LoadImage("data/back.png", true);
-  SDL_Surface *fog = LoadImage("data/fog.png", true);
+  Fog fog(LoadImage("data/fog.png", true));
+  fog.setXY(0, 100);
 
   Music::init();
   Music music("data/music.ogg");
@@ -22,8 +24,8 @@ int main(int argc, char** argv) {
   }
 
   ApplySurface(0, 0, background, screen);
-  ApplySurface(0, 100, fog, screen);
   player.draw(screen);
+  fog.draw(screen);
 
   SDL_Flip(screen);
 
@@ -52,10 +54,11 @@ int main(int argc, char** argv) {
     }
     
     player.nextFrame();
-    
+    fog.scroll();
+
     ApplySurface(0, 0, background, screen);
     player.draw(screen);
-    ApplySurface(0, 100, fog, screen);
+    fog.draw(screen);
 
     SDL_Flip(screen);
     
