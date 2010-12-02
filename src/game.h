@@ -28,7 +28,7 @@ typedef enum {
 
 /* util functions */
 SDL_Surface *InitSDL(void);
-SDL_Surface *LoadImage(std::string);
+SDL_Surface *LoadImage(std::string, bool transparent = false);
 int CleanUp();
 void ApplySurface(int, int, SDL_Surface*, SDL_Surface*, SDL_Rect* clip=NULL); 
 #endif /* _GAME_H_ */

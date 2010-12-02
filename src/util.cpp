@@ -7,7 +7,7 @@
 #include <string>
 #include <iostream>
 
-SDL_Surface *LoadImage(std::string filename) {
+SDL_Surface *LoadImage(std::string filename, bool transparent) {
   SDL_Surface *image = NULL;
   SDL_Surface *optimized;
   
@@ -18,9 +18,14 @@ SDL_Surface *LoadImage(std::string filename) {
     return NULL;
   }
 
-  optimized = SDL_DisplayFormat(image);
-  SDL_FreeSurface(image);
-  
+  if(transparent) {
+    optimized = SDL_DisplayFormatAlpha(image);
+    SDL_SetColorKey(optimized, SDL_SRCCOLORKEY | SDL_RLEACCEL, 
+		    SDL_MapRGB(optimized->format, 0, 0, 0));
+  } else {
+    optimized = SDL_DisplayFormat(image);
+  }
+  SDL_FreeSurface(image);  
   return optimized;
 }
 

@@ -3,7 +3,8 @@
 
 int main(int argc, char** argv) {
   SDL_Surface *screen = InitSDL();
-  SDL_Surface *background = LoadImage("data/back.bmp");
+  SDL_Surface *background = LoadImage("data/back.png", true);
+  SDL_Surface *fog = LoadImage("data/fog.png", true);
   SDL_Event event;
   bool quit = false;
   Character player("xeon", 0, HEIGHT - CHARACTER_HEIGHT);
@@ -14,6 +15,7 @@ int main(int argc, char** argv) {
   }
 
   ApplySurface(0, 0, background, screen);
+  ApplySurface(0, 100, fog, screen);
   player.draw(screen);
 
   SDL_Flip(screen);
@@ -48,6 +50,7 @@ int main(int argc, char** argv) {
     
     ApplySurface(0, 0, background, screen);
     player.draw(screen);
+    ApplySurface(0, 100, fog, screen);
 
     SDL_Flip(screen);
     
