@@ -7,7 +7,7 @@ int main(int argc, char** argv) {
   SDL_Surface *screen = InitSDL();
   SDL_Surface *background = LoadImage("data/back.png", true);
   Fog fog(LoadImage("data/fog.png", true));
-  fog.setXY(0, 100);
+  fog.setXY(0, 300);
 
   Music::init();
   Music music("data/music.ogg");
