@@ -7,15 +7,17 @@ OBJ=$(SRC:.cpp=.o)
 EXE=game
 
 all: $(OBJ) $(HEAD)
-	$(CC) $(OBJ) $(CFLAGS) $(LNFLAGS) -o$(EXE)
+	@echo "link $(EXE)"
+	@$(CC) $(OBJ) $(CFLAGS) $(LNFLAGS) -o$(EXE)
 
-debug: clean
-	$(MAKE all $(CFLAGS += -g))
-
+src/background.o: src/background.cpp src/background.h src/game.h src/config.h \
+ src/timer.h
+src/bullet.o: src/bullet.cpp src/bullet.h src/game.h src/config.h src/timer.h
 src/character.o: src/character.cpp src/game.h src/config.h src/timer.h \
  src/character.h
-src/game.o: src/game.h src/config.h src/timer.h
-src/main.o: src/main.cpp src/game.h src/config.h src/timer.h src/character.h
+src/fog.o: src/fog.cpp src/fog.h src/game.h src/config.h src/timer.h
+src/main.o: src/main.cpp src/game.h src/config.h src/timer.h src/character.h \
+ src/music.h src/fog.h src/background.h
 src/music.o: src/music.cpp src/game.h src/config.h src/timer.h src/music.h
 src/timer.o: src/timer.cpp src/timer.h src/game.h src/config.h
 src/util.o: src/util.cpp src/game.h src/config.h src/timer.h
@@ -34,7 +36,7 @@ todo:
 	@find src -type f | xargs grep -n -i "FIXME"
 
 loc: 
-	@wc -l src/*.[ch]
+	@find src/ -type f | xargs wc -l | sort -h
 
 # requires sloccount
 sloc:

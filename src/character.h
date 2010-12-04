@@ -1,6 +1,10 @@
 #ifndef _CHARACTER_H_
 #define _CHARACTER_H_
 
+#include "bullet.h"
+
+#include <vector>
+
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 
@@ -11,14 +15,18 @@ class Character {
   double velocity_x, velocity_y;
   
   double frame;
-  int numframes[3]; // rest, walk, jump
+  int numframes[NUMSTATES]; // rest, walk, jump, attack
   
   MoveState state;
   
   bool jumping;
 
-  SDL_Rect *clips[3]; // rest, walk, jump
+  SDL_Rect *clips[NUMSTATES]; // rest, walk, jump, attack
   SDL_Surface *image;
+
+  SDL_Surface *bulletImage;
+  std::vector<Bullet> bullets;
+  Uint32 lastShot;
  public:
   Character(std::string, int, int);
   Character() { };
@@ -31,6 +39,7 @@ class Character {
   int getY() { return y; }
   void setX(int v) { x = v; }
   void setY(int v) { y = v; }
+  void fire();
 };
 
 #endif /*_CHARACTER_H_*/

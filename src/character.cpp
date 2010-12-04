@@ -14,12 +14,15 @@ Character::Character(string n, int x_, int y_) {
   jumping = false;
   image = NULL;
 
+  bulletImage = RemoveBackground(LoadImage("data/bullet.png"));
+
   load();
   
 }
 
 Character::~Character() {
   SDL_FreeSurface(image);
+  SDL_FreeSurface(bulletImage);
 }
 
 bool Character::load() {
@@ -46,17 +49,16 @@ bool Character::load() {
   }
 
   /* remove background */
-  Uint32 colorkey = SDL_MapRGB(im->format, CHARACTER_BACK);
-  SDL_SetColorKey(im, SDL_SRCCOLORKEY, colorkey);
-  image = im;
+  image = RemoveBackground(im);
 
-  int r, w, j;  
-  infoFile >> r >> w >> j;
+  int r, w, j, a;  
+  infoFile >> r >> w >> j >> a;
   numframes[REST_INDEX] = r;
   numframes[WALK_INDEX] = w;
   numframes[JUMP_INDEX] = j;
+  numframes[ATTACK_INDEX] = a;
 
-  for(int x = 0; x < 3; x++) {
+  for(int x = 0; x < NUMSTATES; x++) {
     int ctr = -1;
     switch(x) {
       case REST_INDEX:
@@ -67,6 +69,9 @@ bool Character::load() {
 	break;
       case JUMP_INDEX:
 	ctr = j;
+	break;
+      case ATTACK_INDEX:
+	ctr = a;
 	break;
     }
     SDL_Rect* tempptr = new SDL_Rect[ctr];
@@ -89,6 +94,11 @@ void Character::draw(SDL_Surface* screen) {
   int frame = static_cast<int>(this->frame);
   clip = clips[state][frame];
   ApplySurface(x, y, image, screen, &clip);
+  
+  for(uint i = 0; i < bullets.size(); ++i) {
+    bullets[i].move();
+    bullets[i].draw(screen);
+  }
 }
 
 int Character::nextFrame() {
@@ -102,7 +112,8 @@ int Character::nextFrame() {
 
 void Character::handleKeys(const bool keys[]) {
   bool moved = false;
-  
+  bool atk = false;
+
   if(keys[SDLK_UP] && !jumping) {
     state = jump;
     frame = 0;
@@ -132,11 +143,25 @@ void Character::handleKeys(const bool keys[]) {
     moved = true;
   }
   
-  if(moved && !jumping) {
+  if(keys[SDLK_SPACE]) {
+    state = attack;
+    atk = true;
+    if(SDL_GetTicks() - lastShot > BULLET_DELAY) {
+      this->fire();
+    }
+  }
+
+  if(moved && !jumping && !atk) {
     state = walk;
   }
   
-  if(!moved) {
+  if(!moved && !atk) {
     state = rest;
   }
+}
+
+void Character::fire() {
+  lastShot = SDL_GetTicks();
+  bullets.push_back(Bullet(bulletImage, x + CHARACTER_WIDTH / 2,
+			   y + CHARACTER_HEIGHT / 1.7, BULLET_SPEED, 0));
 }

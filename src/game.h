@@ -23,12 +23,14 @@ using std::endl;
 typedef enum {
      rest,
      walk,
-     jump
+     jump,
+     attack
 } MoveState;
 
 /* util functions */
 SDL_Surface *InitSDL(void);
 SDL_Surface *LoadImage(std::string, bool transparent = false);
+SDL_Surface *RemoveBackground(SDL_Surface*);
 int CleanUp();
 void ApplySurface(int, int, SDL_Surface*, SDL_Surface*, SDL_Rect* clip=NULL); 
 #endif /* _GAME_H_ */

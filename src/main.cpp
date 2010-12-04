@@ -2,10 +2,11 @@
 #include "character.h"
 #include "music.h"
 #include "fog.h"
+#include "background.h"
 
 int main(int argc, char** argv) {
   SDL_Surface *screen = InitSDL();
-  SDL_Surface *background = LoadImage("data/back.png", true);
+  Background background(LoadImage("data/back.png", true));
   Fog fog(LoadImage("data/fog.png", true));
   fog.setXY(0, 300);
 
@@ -23,7 +24,7 @@ int main(int argc, char** argv) {
     keys[i] = false;
   }
 
-  ApplySurface(0, 0, background, screen);
+  background.draw(screen);
   player.draw(screen);
   fog.draw(screen);
 
@@ -52,11 +53,18 @@ int main(int argc, char** argv) {
     } else if(player.getX() > WIDTH - CHARACTER_WIDTH) {
       player.setX(WIDTH - CHARACTER_WIDTH);
     }
+
+    /*if(keys[SDLK_LEFT]) {
+      background.unscroll();
+    }
+    if(keys[SDLK_RIGHT]) {
+      background.scroll();
+    }*/
     
     player.nextFrame();
     fog.scroll();
 
-    ApplySurface(0, 0, background, screen);
+    background.draw(screen);
     player.draw(screen);
     fog.draw(screen);
 

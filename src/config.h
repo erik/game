@@ -9,6 +9,9 @@
 #define REST_INDEX 0
 #define WALK_INDEX 1
 #define JUMP_INDEX 2
+#define ATTACK_INDEX 3
+
+#define NUMSTATES 4
 
 #define CHARACTER_WIDTH 96
 #define CHARACTER_HEIGHT 96
@@ -23,5 +26,8 @@
 
 #define GRAVITY 2
 #define Y_VELOCITY_STEP -20
+
+#define BULLET_SPEED 15
+#define BULLET_DELAY 200
 
 #endif /* _CONFIG_H_ */

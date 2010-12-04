@@ -30,6 +30,12 @@ SDL_Surface *LoadImage(std::string filename, bool transparent) {
   return optimized;
 }
 
+SDL_Surface *RemoveBackground(SDL_Surface *im) {
+  Uint32 colorkey = SDL_MapRGB(im->format, CHARACTER_BACK);
+  SDL_SetColorKey(im, SDL_SRCCOLORKEY, colorkey);
+  return im;
+}
+
 SDL_Surface *InitSDL() {
   if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == -1) {
     FATAL("SDL init failed");
