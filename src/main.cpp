@@ -3,6 +3,9 @@
 #include "music.h"
 #include "fog.h"
 #include "background.h"
+#include "zombie.h"
+
+#include <vector>
 
 int main(int argc, char** argv) {
   SDL_Surface *screen = InitSDL();
@@ -24,9 +27,12 @@ int main(int argc, char** argv) {
     keys[i] = false;
   }
 
+  Zombie zom("zombie", WIDTH - ZOMBIE_WIDTH / 2, HEIGHT - CHARACTER_HEIGHT);
+
   background.draw(screen);
   player.draw(screen);
   fog.draw(screen);
+  zom.draw(screen);
 
   SDL_Flip(screen);
 
@@ -62,10 +68,13 @@ int main(int argc, char** argv) {
     }*/
     
     player.nextFrame();
+    zom.reactToPlayer(&player);
+    zom.nextFrame();
     fog.scroll();
 
     background.draw(screen);
     player.draw(screen);
+    zom.draw(screen);
     fog.draw(screen);
 
     SDL_Flip(screen);

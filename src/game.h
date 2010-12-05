@@ -21,11 +21,18 @@ using std::endl;
 //
 
 typedef enum {
-     rest,
-     walk,
-     jump,
-     attack
+  RestState,
+  WalkState,
+  JumpState,
+  AttackState
 } MoveState;
+
+typedef enum {
+  ZRestState,
+  ZWalkState,
+  ZDeathState,
+  ZAttackState
+} ZombieState;
 
 /* util functions */
 SDL_Surface *InitSDL(void);

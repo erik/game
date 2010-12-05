@@ -4,15 +4,18 @@
 #include "bullet.h"
 
 #include <vector>
+#include <fstream>
 
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 
 class Character {
- private:
+private:
   string name;
   int x, y;
   double velocity_x, velocity_y;
+
+  int life;
   
   double frame;
   int numframes[NUMSTATES]; // rest, walk, jump, attack
@@ -27,7 +30,8 @@ class Character {
   SDL_Surface *bulletImage;
   std::vector<Bullet> bullets;
   Uint32 lastShot;
- public:
+
+public:
   Character(std::string, int, int);
   Character() { };
   ~Character();
@@ -40,6 +44,11 @@ class Character {
   void setX(int v) { x = v; }
   void setY(int v) { y = v; }
   void fire();
+
+  void hit(int damage=ZOMBIE_DAMAGE) {life -= damage; }
+  bool alive() { return life > 0; }
+  int health() { return life; }
+
 };
 
 #endif /*_CHARACTER_H_*/

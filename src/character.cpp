@@ -1,5 +1,3 @@
-#include <fstream>
-
 #include "game.h"
 #include "character.h"
 
@@ -9,15 +7,18 @@ Character::Character(string n, int x_, int y_) {
   y = y_;
   velocity_x = velocity_y = 0;
   
-  state = rest;
+  life = 100;
+
+  state = RestState;
   
   jumping = false;
   image = NULL;
 
   bulletImage = RemoveBackground(LoadImage("data/bullet.png"));
 
-  load();
-  
+  if(!this->load()) {
+    FATAL("couldn't load character instance!");
+  }  
 }
 
 Character::~Character() {
@@ -118,7 +119,7 @@ void Character::handleKeys(const bool keys[]) {
   bool atk = false;
 
   if(keys[SDLK_UP] && !jumping) {
-    state = jump;
+    state = JumpState;
     frame = 0;
     jumping = true;
     velocity_y = Y_VELOCITY_STEP;
@@ -147,7 +148,7 @@ void Character::handleKeys(const bool keys[]) {
   }
   
   if(keys[SDLK_SPACE]) {
-    state = attack;
+    state = AttackState;
     atk = true;
     if(SDL_GetTicks() - lastShot > BULLET_DELAY) {
       this->fire();
@@ -155,11 +156,11 @@ void Character::handleKeys(const bool keys[]) {
   }
 
   if(moved && !jumping && !atk) {
-    state = walk;
+    state = WalkState;
   }
   
   if(!moved && !atk) {
-    state = rest;
+    state = RestState;
   }
 }
 
