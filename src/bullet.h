@@ -9,6 +9,9 @@ private:
   int xmove, ymove;
   SDL_Surface* image;
 public:
+  const static int MaxDistance = WIDTH;
+  int dx, dy;
+
   Bullet(SDL_Surface *); 
   Bullet(SDL_Surface*, int, int);
   Bullet(SDL_Surface*, int, int, int, int);

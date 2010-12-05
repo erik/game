@@ -95,7 +95,10 @@ void Character::draw(SDL_Surface* screen) {
   clip = clips[state][frame];
   ApplySurface(x, y, image, screen, &clip);
   
-  for(uint i = 0; i < bullets.size(); ++i) {
+  for(int i = bullets.size() - 1; i >= 0; --i) {
+    if(bullets[i].dx >= Bullet::MaxDistance) {
+      bullets.erase(bullets.begin() + i);
+    }
     bullets[i].move();
     bullets[i].draw(screen);
   }

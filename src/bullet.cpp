@@ -2,27 +2,30 @@
 
 Bullet::Bullet(SDL_Surface* i) {
   image = i;
-  x = y= xmove = ymove = 0;
+  dx = dy = x = y= xmove = ymove = 0;
 }
 
 Bullet::Bullet(SDL_Surface* i, int x_, int y_) {
   image = i;
   x = x_;
   y = y_;
-  xmove = ymove = 0;
+  dx = dy = xmove = ymove = 0;
 }
 
-Bullet::Bullet(SDL_Surface* i, int x_, int y_, int dx, int dy) {
+Bullet::Bullet(SDL_Surface* i, int x_, int y_, int dx_, int dy_) {
   image = i;
   x = x_;
   y = y_;
-  xmove = dx;
-  ymove = dy;
+  xmove = dx_;
+  ymove = dy_;
+  dx = dy = 0;
 }
 
 void Bullet::move() {
   x += xmove;
   y += ymove;
+  dx += xmove;
+  dy += ymove;
 }
 
 void Bullet::draw(SDL_Surface* s) {

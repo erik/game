@@ -35,8 +35,8 @@ todo:
 	@find src -type f | xargs grep -n -i "TODO"
 	@find src -type f | xargs grep -n -i "FIXME"
 
-loc: 
-	@find src/ -type f | xargs wc -l | sort -h
+loc:
+	@find src/ -type f -name '*.[^o]*' | xargs wc -l | sort -h
 
 # requires sloccount
 sloc:
@@ -44,3 +44,4 @@ sloc:
 
 
 .PHONY= loc sloc todo
+
